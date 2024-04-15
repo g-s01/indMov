@@ -23,6 +23,7 @@ def getData(urls):
         language = None
         movie_name = None
         imdb_rating = None
+        metascore = None
         popularity = None
         date = None
         runtime = None
@@ -39,6 +40,10 @@ def getData(urls):
         try:
             results = soup.find_all("span", class_="sc-bde20123-1")
             imdb_rating = results[0].text
+        except: pass
+        try:
+            results = soup.find_all("span", class_="metacritic-score-label")
+            metascore = results[0].text
         except: pass
         try:
             results = soup.find_all("div", class_="sc-5f7fb5b4-1")
@@ -122,11 +127,11 @@ def getData(urls):
         count += 1
         end_time = time.time()
         print(f'Processed {count}/{total} movies... Estimated time left : {math.floor((total-count)*(end_time-start_time)/count)//60}m {math.floor((total-count)*(end_time-start_time)/count)%60}s.......', end='\r')
-        writer.writerow([movie_name, imdb_rating, popularity, date, gross_worldwide, runtime, genres, directors, stars, companies, coo, languages])
+        writer.writerow([movie_name, imdb_rating, metascore, popularity, date, gross_worldwide, runtime, genres, directors, stars, companies, coo, languages])
         lock.release()
 
 
-with open("urls.txt", "r") as f:
+with open("data/urls.txt", "r") as f:
     start_time = time.time()
     lines = f.readlines()
     total = len(lines)
