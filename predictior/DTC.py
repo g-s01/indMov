@@ -1,3 +1,5 @@
+import numpy as np
+
 class DTC:
     def __init__(self, max_depth=None):
         self.max_depth = max_depth
