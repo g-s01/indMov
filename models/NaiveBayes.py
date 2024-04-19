@@ -1,13 +1,13 @@
 import numpy as np
 
 class GNB:
-    def fit(self, X, y):
+    def fit(self, X, y, smoothing_value = 1e-9):
         self.classes = np.unique(y)
         self.n_classes = len(self.classes)
         self.mean = np.zeros((self.n_classes, X.shape[1]))
         self.var = np.zeros((self.n_classes, X.shape[1]))
         self.prior = np.zeros(self.n_classes)
-        self.epsilon = 1e-9 * np.var(X, axis=0).max()
+        self.epsilon = smoothing_value * np.var(X, axis=0).max()
         for idx, c in enumerate(self.classes):
             X_c = X[y == c]
             self.mean[idx, :] = X_c.mean(axis=0)
